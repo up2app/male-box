@@ -26,16 +26,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static(path.join(__dirname, "..", "build/")));
 
-//serve the react components
-// app.use((req, res, next) => {
-//     res.sendFile(path.join(__dirname, "..", "build", "index.html"));
-//     next()
-//   });
-
-app.get('/',(req,res) => {
-  res.sendFile(path.join(__dirname, "..", "build", "index.html"));
-})
-
+//serve the server api
 app.use(`/api/users` , require('./routes/user'))
 app.use(`/api/items` , require('./routes/item'))
 app.use(`/api/category` , require('./routes/category'))
@@ -45,6 +36,10 @@ app.use(`/api/itemsinorder` , require('./routes/itemsinorder'))
 app.use(`/api/homepage` , require('./routes/homepage'))
 app.use(`/api/upload`, require('./routes/upload'))
 
+//serve the react components
+app.get('/*',(req,res) => {
+  res.sendFile(path.join(__dirname, "..", "build", "index.html"));
+})
 
 //create the server
 var server = http.createServer(app)
